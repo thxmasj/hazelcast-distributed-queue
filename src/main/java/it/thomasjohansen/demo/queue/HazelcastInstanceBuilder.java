@@ -25,7 +25,13 @@ public class HazelcastInstanceBuilder {
     }
 
     public HazelcastInstance build() {
-        return Hazelcast.newHazelcastInstance(config);
+        if (config == null)
+            throw new IllegalStateException("Already built");
+        try {
+            return Hazelcast.newHazelcastInstance(config);
+        } finally {
+            config = null;
+        }
     }
 
 }
